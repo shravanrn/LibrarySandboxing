@@ -4,6 +4,6 @@ depot_tools
 gyp
 Sandboxing_NaCl
 libjpeg-turbo
-nasm-2.13
+NASM_NaCl
 mozilla-release
 ProcessSandbox
