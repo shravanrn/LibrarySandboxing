@@ -1,4 +1,5 @@
-export PATH := ./depot_tools:$(PATH)
+DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
+export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .PHONY : build32 build64 pull clean
 
@@ -40,9 +41,10 @@ build64: $(DIRS)
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
+	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64
 	$(MAKE) -C mozilla-release build64
-	$(MAKE) -C ProcessSandbox all64
+	
 
 pull: $(DIRS)
 	cd Sandboxing_NaCl && git pull
