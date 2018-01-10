@@ -20,6 +20,7 @@ Sandboxing_NaCl :
 
 libjpeg-turbo :
 	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git libjpeg-turbo
+	cd libjpeg-turbo && git checkout 1.4.x
 
 NASM_NaCl :
 	git clone https://github.com/shravanrn/NASM_NaCl.git
