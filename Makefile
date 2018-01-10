@@ -32,7 +32,8 @@ ProcessSandbox :
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking ProcessSandbox
 
 build32: $(DIRS)
-	cd NASM_NaCl && ./configure && $(MAKE) -C NASM_NaCl
+	cd NASM_NaCl && ./configure
+	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32
 	$(MAKE) -C libjpeg-turbo/builds all32
 	$(MAKE) -C mozilla-release build32
@@ -45,7 +46,6 @@ build64: $(DIRS)
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64
 	$(MAKE) -C mozilla-release build64
-	
 
 pull: $(DIRS)
 	cd Sandboxing_NaCl && git pull
