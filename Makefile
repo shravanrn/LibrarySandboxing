@@ -44,11 +44,11 @@ build32: $(DIRS)
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32
+	$(MAKE) -C ProcessSandbox all32
 	$(MAKE) -C libjpeg-turbo/builds all32
 	$(MAKE) -C zlib_nacl/builds all32
 	$(MAKE) -C libpng_nacl/builds all32
 	$(MAKE) -C mozilla-release build32
-	$(MAKE) -C ProcessSandbox all32
 
 build64: $(DIRS)
 	cd NASM_NaCl && ./configure
