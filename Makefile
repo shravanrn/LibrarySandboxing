@@ -46,7 +46,7 @@ build32: $(DIRS)
 	$(MAKE) -C Sandboxing_NaCl buildopt32
 	$(MAKE) -C ProcessSandbox all32
 	$(MAKE) -C libjpeg-turbo/builds all32
-	$(MAKE) -C zlib_nacl/builds all32
+	$(MAKE) -C zlib_nacl/builds build
 	$(MAKE) -C libpng_nacl/builds all32
 	$(MAKE) -C mozilla-release build32
 
@@ -56,7 +56,7 @@ build64: $(DIRS)
 	$(MAKE) -C Sandboxing_NaCl buildopt64 buildopt32
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64
-	$(MAKE) -C zlib_nacl/builds all64
+	$(MAKE) -C zlib_nacl/builds build
 	$(MAKE) -C libpng_nacl/builds all64
 	$(MAKE) -C mozilla-release/builds build64
 
