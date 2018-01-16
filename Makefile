@@ -19,6 +19,7 @@ Sandboxing_NaCl :
 	git clone https://github.com/shravanrn/Sandboxing_NaCl.git
 
 libjpeg-turbo :
+	sudo apt install autoconf libtool
 	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git libjpeg-turbo
 	cd libjpeg-turbo && git checkout 1.4.x
 
