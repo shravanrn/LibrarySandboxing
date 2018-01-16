@@ -7,3 +7,5 @@ libjpeg-turbo
 NASM_NaCl
 mozilla-release
 ProcessSandbox
+zlib_nacl
+libpng_nacl
