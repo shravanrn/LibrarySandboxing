@@ -77,6 +77,6 @@ clean:
 	-$(MAKE) -C libjpeg-turbo/builds clean
 	-$(MAKE) -C zlib_nacl/builds clean
 	-$(MAKE) -C libpng_nacl/builds clean
-	-$(MAKE) -C mozilla-release clean
+	-$(MAKE) -C mozilla-release/builds clean
 	-$(MAKE) -C ProcessSandbox clean
 	-$(MAKE) -C NASM_NaCl clean
