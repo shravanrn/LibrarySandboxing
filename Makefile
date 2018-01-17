@@ -61,6 +61,7 @@ build64: $(DIRS)
 	$(MAKE) -C mozilla-release/builds build64
 
 pull: $(DIRS)
+	git pull
 	cd Sandboxing_NaCl && git pull
 	cd libjpeg-turbo && git pull
 	cd zlib_nacl && git pull
