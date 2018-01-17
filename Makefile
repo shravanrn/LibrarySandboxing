@@ -48,7 +48,7 @@ build32: $(DIRS)
 	$(MAKE) -C libjpeg-turbo/builds all32
 	$(MAKE) -C zlib_nacl/builds build
 	$(MAKE) -C libpng_nacl/builds build
-	$(MAKE) -C mozilla-release build32
+	$(MAKE) -C mozilla-release/builds build32
 
 build64: $(DIRS)
 	cd NASM_NaCl && ./configure
