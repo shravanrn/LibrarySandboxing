@@ -25,7 +25,7 @@ libjpeg-turbo :
 
 libpng_nacl:
 	git clone https://github.com/shravanrn/libpng_nacl.git libpng_nacl
-	cd libpng_nacl && git checkout libpng16
+	cd libpng_nacl && git checkout 1.6.31
 
 zlib_nacl:
 	git clone https://github.com/shravanrn/zlib_nacl.git zlib_nacl
