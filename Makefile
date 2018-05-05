@@ -37,7 +37,7 @@ mozilla-release :
 	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git mozilla-release
 
 ProcessSandbox :
-	sudo apt install libc6-dev-i386
+	sudo apt install libc6-dev-i386 libseccomp-dev
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking ProcessSandbox
 
 rlbox-st-test:
