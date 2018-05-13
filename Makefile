@@ -5,7 +5,7 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl
+DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -40,6 +40,12 @@ ProcessSandbox :
 	sudo apt install libc6-dev-i386
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking ProcessSandbox
 
+rlbox-st-test:
+	git clone https://github.com/PLSysSec/rlbox-st-test.git
+
+rlbox_api:
+	git clone https://github.com/shravanrn/rlbox_api.git
+
 build32: $(DIRS)
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
@@ -71,6 +77,8 @@ pull: $(DIRS)
 	cd mozilla-release && git pull
 	cd ProcessSandbox && git pull
 	cd NASM_NaCl && git pull
+	cd rlbox-st-test && git pull
+	cd rlbox_api && git pull
 
 clean:
 	-$(MAKE) -C Sandboxing_NaCl clean
