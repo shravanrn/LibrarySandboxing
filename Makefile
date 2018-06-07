@@ -8,37 +8,37 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api
 
 depot_tools :
-	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
 
 gyp :
 	sudo apt install python-setuptools
-	git clone https://chromium.googlesource.com/external/gyp.git
+	git clone https://chromium.googlesource.com/external/gyp.git $@
 	cd gyp && sudo python setup.py install
 
 Sandboxing_NaCl :
-	git clone https://github.com/shravanrn/Sandboxing_NaCl.git
+	git clone https://github.com/shravanrn/Sandboxing_NaCl.git $@
 
 libjpeg-turbo :
 	sudo apt install autoconf libtool
-	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git libjpeg-turbo
+	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git $@
 	cd libjpeg-turbo && git checkout 1.4.x
 
 libpng_nacl:
-	git clone https://github.com/shravanrn/libpng_nacl.git libpng_nacl
+	git clone https://github.com/shravanrn/libpng_nacl.git $@
 	cd libpng_nacl && git checkout 1.6.31
 
 zlib_nacl:
-	git clone https://github.com/shravanrn/zlib_nacl.git zlib_nacl
+	git clone https://github.com/shravanrn/zlib_nacl.git $@
 
 NASM_NaCl :
-	git clone https://github.com/shravanrn/NASM_NaCl.git
+	git clone https://github.com/shravanrn/NASM_NaCl.git $@
 
 mozilla-release :
-	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git mozilla-release
+	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
 
 ProcessSandbox :
 	sudo apt install libc6-dev-i386 libseccomp-dev
-	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking ProcessSandbox
+	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking $@
 
 rlbox-st-test:
 	git clone https://github.com/PLSysSec/rlbox-st-test.git
