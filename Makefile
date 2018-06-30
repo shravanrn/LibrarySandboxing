@@ -1,6 +1,7 @@
 DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
 export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
+.NOTPARALLEL:
 .PHONY : build32 build64 pull clean
 
 .DEFAULT_GOAL := build64
@@ -79,7 +80,6 @@ build64: $(DIRS)
 	cd ./emsdk/emscripten/incoming && git remote add myremote https://github.com/shravanrn/emscripten_lp64 && git fetch myremote && git checkout -b myremote --track myremote/incoming
 	cd emsdk && ./emsdk activate --enable-wasm --build=Debug latest emscripten-incoming-64bit
 	#Use custom clang-llvm for emscripten
-	echo "$(cat ~/.emscripten | grep -v LLVM_ROOT)" > ~/.emscripten
 	echo "LLVM_ROOT='$(realpath ./wasm_llvm/build/bin/)'" >> ~/.emscripten
 	$(MAKE) -C wasm-sandboxing/builds build64
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
