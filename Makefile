@@ -11,7 +11,7 @@ depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
 
 gyp :
-	sudo apt install python-setuptools
+	sudo apt -y install python-setuptools
 	git clone https://chromium.googlesource.com/external/gyp.git $@
 	cd gyp && sudo python setup.py install
 
@@ -47,6 +47,7 @@ rlbox_api:
 	git clone https://github.com/shravanrn/rlbox_api.git
 
 build32: $(DIRS)
+	$(MAKE) -C mozilla-release/builds inithasrun
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32 buildopt64
@@ -58,6 +59,7 @@ build32: $(DIRS)
 	$(MAKE) -C mozilla-release/builds build32
 
 build64: $(DIRS)
+	$(MAKE) -C mozilla-release/builds inithasrun
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32 buildopt64
