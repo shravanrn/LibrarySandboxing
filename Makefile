@@ -53,6 +53,12 @@ wasm-sandboxing:
 
 emsdk:
 	git clone https://github.com/juj/emsdk.git
+	#Build emscripten
+	cd emsdk && ./emsdk install --enable-wasm --build=Debug latest emscripten-incoming-64bit && ./emsdk activate --enable-wasm --build=Debug latest emscripten-incoming-64bit
+	cd ./emsdk/emscripten/incoming && git remote add myremote https://github.com/shravanrn/emscripten_lp64 && git fetch myremote && git checkout -b myremote --track myremote/incoming
+	cd emsdk && ./emsdk activate --enable-wasm --build=Debug latest emscripten-incoming-64bit
+	#Use custom clang-llvm for emscripten
+	echo "LLVM_ROOT='$(realpath ./wasm_llvm/build/bin/)'" >> ~/.emscripten
 
 wasm_llvm:
 	sudo apt install cmake
@@ -78,12 +84,6 @@ build64: $(DIRS)
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32 buildopt64
-	#Build emscripten
-	cd emsdk && ./emsdk install --enable-wasm --build=Debug latest emscripten-incoming-64bit && ./emsdk activate --enable-wasm --build=Debug latest emscripten-incoming-64bit
-	cd ./emsdk/emscripten/incoming && git remote add myremote https://github.com/shravanrn/emscripten_lp64 && git fetch myremote && git checkout -b myremote --track myremote/incoming
-	cd emsdk && ./emsdk activate --enable-wasm --build=Debug latest emscripten-incoming-64bit
-	#Use custom clang-llvm for emscripten
-	echo "LLVM_ROOT='$(realpath ./wasm_llvm/build/bin/)'" >> ~/.emscripten
 	$(MAKE) -C wasm_llvm/build
 	$(MAKE) -C wasm-sandboxing/builds build64
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
