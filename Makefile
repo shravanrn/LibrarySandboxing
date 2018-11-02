@@ -62,8 +62,8 @@ emsdk:
 
 wasm_llvm:
 	sudo apt install cmake
-	git clone https://github.com/shravanrn/wasm_llvm.git wasm_llvm
-	cd ./wasm_llvm/tools && git clone https://github.com/shravanrn/wasm_clang.git clang
+	git clone https://github.com/shravanrn-dupforks/wasm_llvm.git wasm_llvm
+	cd ./wasm_llvm/tools && git clone https://github.com/shravanrn-dupforks/wasm_clang.git clang
 	cd ./wasm_llvm/tools && git clone https://github.com/llvm-mirror/lld.git lld
 	mkdir -p ./wasm_llvm/build && cd ./wasm_llvm/build && cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DLLVM_TARGETS_TO_BUILD= -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly ../
 
