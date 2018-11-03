@@ -92,7 +92,6 @@ build64: $(DIRS)
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64  # now the examples as well
 	$(MAKE) -C mozilla-release/builds minbuild64
-	$(MAKE) -C wasm_llvm/build
 
 pull: $(DIRS)
 	git pull
