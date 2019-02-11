@@ -2,17 +2,20 @@ DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
 export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .NOTPARALLEL:
-.PHONY : build32 build64 pull clean
+.PHONY : build_deps build32 build64 pull clean
 
 .DEFAULT_GOAL := build64
 
-DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm
+
+
+builds_deps:
+	sudo apt -y install python-setuptools autoconf libtool libc6-dev-i386 libseccomp-dev clang llvm cmake ninja-build
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
 
 gyp :
-	sudo apt -y install python-setuptools
 	git clone https://chromium.googlesource.com/external/gyp.git $@
 	cd gyp && sudo python setup.py install
 
@@ -20,7 +23,6 @@ Sandboxing_NaCl :
 	git clone https://github.com/shravanrn/Sandboxing_NaCl.git $@
 
 libjpeg-turbo :
-	sudo apt install autoconf libtool
 	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git $@
 	cd libjpeg-turbo && git checkout 1.4.x
 
@@ -38,7 +40,6 @@ mozilla-release :
 	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
 
 ProcessSandbox :
-	sudo apt install libc6-dev-i386 libseccomp-dev
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking $@
 
 rlbox-st-test:
@@ -48,7 +49,6 @@ rlbox_api:
 	git clone https://github.com/shravanrn/rlbox_api.git
 
 wasm-sandboxing:
-	sudo apt install clang llvm
 	git clone --recursive https://github.com/shravanrn/wasm-sandboxing.git
 
 emsdk:
@@ -61,10 +61,11 @@ emsdk:
 	echo "LLVM_ROOT='$(realpath ./wasm_llvm/build/bin/)'" >> ~/.emscripten
 
 wasm_llvm:
-	sudo apt install cmake
 	git clone https://github.com/shravanrn-dupforks/wasm_llvm.git wasm_llvm
 	cd ./wasm_llvm/tools && git clone https://github.com/shravanrn-dupforks/wasm_clang.git clang
 	cd ./wasm_llvm/tools && git clone https://github.com/llvm-mirror/lld.git lld
+	cd ./wasm_llvm/tools/clang/tools && git clone https://github.com/shravanrn/rlbox_structdump/ structdump
+	echo "add_clang_subdirectory(structdump)" >> ./wasm_llvm/tools/clang/tools/CMakeLists.txt
 	mkdir -p ./wasm_llvm/build && cd ./wasm_llvm/build && cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DLLVM_TARGETS_TO_BUILD= -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly ../
 
 build32: $(DIRS)
