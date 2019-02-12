@@ -10,7 +10,7 @@ DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-
 
 
 builds_deps:
-	sudo apt -y install python-setuptools autoconf libtool libc6-dev-i386 libseccomp-dev clang llvm cmake ninja-build
+	sudo apt -y install python-setuptools autoconf libtool libc6-dev-i386 libseccomp-dev libseccomp-dev:i386 clang llvm cmake ninja-build
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
