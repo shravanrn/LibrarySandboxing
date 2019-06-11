@@ -56,11 +56,12 @@ wasi-sysroot:
 	cd wasi-sysroot-src && make WASM_CC=clang WASM_NM=llvm-nm WASM_AR=llvm-ar INSTALL_DIR=../wasi-sysroot install
 	rm -rf wasi-sysroot-src
 
+CLANG_ROOT ?= /usr/lib/clang/8.0.0
+
 lucet: wasi-sysroot
 	git clone --recursive https://github.com/fastly/lucet.git
 	cd lucet && git submodule update --init
-	export WASI_SYSROOT=$(realpath)/wasi-sysroot-install
-	cd lucet && cargo build --release
+	export WASI_SYSROOT=$(realpath wasi-sysroot) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
 
 
 emsdk:
