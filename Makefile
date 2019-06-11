@@ -61,6 +61,8 @@ CLANG_ROOT ?= /usr/lib/clang/8.0.0
 lucet: wasi-sysroot
 	git clone --recursive https://github.com/fastly/lucet.git
 	cd lucet && git submodule update --init
+	curl -sL https://github.com/CraneStation/wasi-sdk/releases/download/wasi-sdk-5/libclang_rt.builtins-wasm32-wasi-5.0.tar.gz | \
+sudo tar x -zf - -C $(CLANG_ROOT)
 	export WASI_SYSROOT=$(realpath wasi-sysroot) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
 
 
