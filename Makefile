@@ -51,6 +51,21 @@ rlbox_api:
 wasm-sandboxing:
 	git clone --recursive https://github.com/shravanrn/wasm-sandboxing.git
 
+wasi-sysroot:
+	git clone --recursive https://github.com/CraneStation/wasi-sysroot wasi-sysroot-src
+	cd wasi-sysroot-src && make WASM_CC=clang WASM_NM=llvm-nm WASM_AR=llvm-ar INSTALL_DIR=../wasi-sysroot install
+	rm -rf wasi-sysroot-src
+
+CLANG_ROOT ?= /usr/lib/clang/8.0.0
+
+lucet: wasi-sysroot
+	git clone --recursive https://github.com/fastly/lucet.git
+	cd lucet && git submodule update --init
+	curl -sL https://github.com/CraneStation/wasi-sdk/releases/download/wasi-sdk-5/libclang_rt.builtins-wasm32-wasi-5.0.tar.gz | \
+sudo tar x -zf - -C $(CLANG_ROOT)
+	export WASI_SYSROOT=$(realpath wasi-sysroot) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
+
+
 emsdk:
 	git clone https://github.com/juj/emsdk.git
 	#Build emscripten
