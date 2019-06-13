@@ -1,14 +1,3 @@
 *~
 *.o
-depot_tools
-gyp
-Sandboxing_NaCl
-libjpeg-turbo
-NASM_NaCl
-mozilla-release
-ProcessSandbox
-zlib_nacl
-libpng_nacl
-/FirefoxTestLogs/
-lucet
-wasi-sysroot
+*/*

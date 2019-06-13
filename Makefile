@@ -6,11 +6,12 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm wasi-sysroot lucet
 
 
 builds_deps:
-	sudo apt -y install python-setuptools autoconf libtool libc6-dev-i386 libseccomp-dev libseccomp-dev:i386 clang llvm cmake ninja-build
+	#may crash if dependency such as clang-8 is not found... If so update package sources
+	sudo apt -y install python-setuptools autoconf libtool libc6-dev-i386 libseccomp-dev libseccomp-dev:i386 clang llvm clang-8 llvm-8 cmake ninja-build
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
@@ -52,19 +53,14 @@ wasm-sandboxing:
 	git clone --recursive https://github.com/shravanrn/wasm-sandboxing.git
 
 wasi-sysroot:
-	git clone --recursive https://github.com/CraneStation/wasi-sysroot wasi-sysroot-src
-	cd wasi-sysroot-src && make WASM_CC=clang WASM_NM=llvm-nm WASM_AR=llvm-ar INSTALL_DIR=../wasi-sysroot install
-	rm -rf wasi-sysroot-src
+	git clone --recursive https://github.com/CraneStation/wasi-sysroot wasi-sysroot
 
-CLANG_ROOT ?= /usr/lib/clang/8.0.0
+CLANG_ROOT ?= $(shell find /usr/lib/clang -iname "8*" -exec echo {} \; | tail -n 1)
 
-lucet: wasi-sysroot
+lucet:
 	git clone --recursive https://github.com/fastly/lucet.git
 	cd lucet && git submodule update --init
-	curl -sL https://github.com/CraneStation/wasi-sdk/releases/download/wasi-sdk-5/libclang_rt.builtins-wasm32-wasi-5.0.tar.gz | \
-sudo tar x -zf - -C $(CLANG_ROOT)
-	export WASI_SYSROOT=$(realpath wasi-sysroot) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
-
+	curl -sL https://github.com/CraneStation/wasi-sdk/releases/download/wasi-sdk-5/libclang_rt.builtins-wasm32-wasi-5.0.tar.gz | sudo tar x -zf - -C $(CLANG_ROOT)
 
 emsdk:
 	git clone https://github.com/juj/emsdk.git
@@ -97,6 +93,8 @@ build32: $(DIRS)
 
 build64: $(DIRS)
 	$(MAKE) -C mozilla-release/builds inithasrun
+	cd wasi-sysroot && $(MAKE) WASM_CC=clang-8 WASM_NM=llvm-nm-8 WASM_AR=llvm-ar-8 INSTALL_DIR=./install_dir install
+	export WASI_SYSROOT=$(realpath wasi-sysroot/install_dir) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32 buildopt64
@@ -124,6 +122,7 @@ pull: $(DIRS)
 	cd emsdk && git pull
 	cd wasm_llvm && git pull
 	cd wasm_llvm/tools/clang && git pull
+	cd wasi-sysroot && git pull
 
 clean:
 	-$(MAKE) -C Sandboxing_NaCl clean
