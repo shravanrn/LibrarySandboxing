@@ -94,7 +94,8 @@ build32: $(DIRS)
 build64: $(DIRS)
 	$(MAKE) -C mozilla-release/builds inithasrun
 	cd wasi-sysroot && $(MAKE) WASM_CC=clang-8 WASM_NM=llvm-nm-8 WASM_AR=llvm-ar-8 INSTALL_DIR=./install_dir install
-	export WASI_SYSROOT=$(realpath wasi-sysroot/install_dir) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build --release
+	export WASI_SYSROOT=$(realpath wasi-sysroot/install_dir) CLANG_ROOT=$(CLANG_ROOT) && cd lucet && cargo build && cargo build --release
+	cd lucet/lucet-builtins && $(MAKE)
 	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt32 buildopt64
