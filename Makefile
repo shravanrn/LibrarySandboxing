@@ -6,7 +6,7 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm wasi-sysroot lucet
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api wasm-sandboxing emsdk wasm_llvm wasi-sysroot lucet
 
 
 builds_deps:
@@ -33,6 +33,12 @@ libpng_nacl:
 
 zlib_nacl:
 	git clone https://github.com/shravanrn/zlib_nacl.git $@
+
+libtheora:
+	git clone https://github.com/shravanrn/libtheora.git $@
+
+libvpx:
+	git clone https://github.com/shravanrn/libvpx.git $@
 
 NASM_NaCl :
 	git clone https://github.com/shravanrn/NASM_NaCl.git $@
@@ -104,6 +110,8 @@ build64: $(DIRS)
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
 	$(MAKE) -C zlib_nacl/builds build
 	$(MAKE) -C libpng_nacl/builds build
+	$(MAKE) -C libtheora/builds build
+	$(MAKE) -C libvpx/builds build
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64  # now the examples as well
 	$(MAKE) -C mozilla-release/builds minbuild64
@@ -114,6 +122,8 @@ pull: $(DIRS)
 	cd libjpeg-turbo && git pull
 	cd zlib_nacl && git pull
 	cd libpng_nacl && git pull
+	cd libtheora && git pull
+	cd libvpx && git pull
 	cd mozilla-release && git pull
 	cd ProcessSandbox && git pull
 	cd NASM_NaCl && git pull
@@ -130,6 +140,8 @@ clean:
 	-$(MAKE) -C libjpeg-turbo/builds clean
 	-$(MAKE) -C zlib_nacl/builds clean
 	-$(MAKE) -C libpng_nacl/builds clean
+	-$(MAKE) -C libtheora/builds clean
+	-$(MAKE) -C libvpx/builds clean
 	-$(MAKE) -C mozilla-release/builds clean
 	-$(MAKE) -C ProcessSandbox clean
 	-$(MAKE) -C NASM_NaCl clean
