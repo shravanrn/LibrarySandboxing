@@ -9,7 +9,11 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js
 
 builds_deps:
-	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc
+	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf
+	# Need for some of the nacl compile tools
+	if [ ! -e "/usr/include/asm-generic" ]; then
+		sudo ln -s /usr/include/asm-generic /usr/include/asm
+	fi
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
