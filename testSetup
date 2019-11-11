@@ -1,0 +1,26 @@
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
+then
+    echo "Run script ${BASH_SOURCE[0]} as 'source ${BASH_SOURCE[0]}'"
+    exit 1
+fi
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+taskset -c -p 1
+sleep 3
+
+sudo echo "Running sudo"
+sudo cpufreq-set -c 1 -g performance
+sudo cpufreq-set -c 3 -g performance
+sudo cpufreq-set -c 1 --min 2200MHz --max 2200MHz
+sudo cpufreq-set -c 3 --min 2200MHz --max 2200MHz
+
+nmcli n off
+
+Xvfb :99 &
+export DISPLAY=:99
+
+cd $SCRIPT_DIR/rlbox-st-test
+node server.js &
+
+cd $SCRIPT_DIR/mozilla-release/
