@@ -6,7 +6,7 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js
 
 builds_deps:
 	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc
@@ -45,6 +45,10 @@ NASM_NaCl :
 mozilla-release :
 	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
 
+mozilla_firefox_stock:
+	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
+	cd $@ && git checkout vanilla
+
 ProcessSandbox :
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking $@
 
@@ -73,6 +77,7 @@ build: $(DIRS)
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64  # now the examples as well
 	$(MAKE) -C mozilla-release/builds minbuild64
+	$(MAKE) -C mozilla_firefox_stock/builds build
 	$(MAKE) -C node.bcrypt.js build
 
 pull: $(DIRS)
@@ -99,6 +104,7 @@ clean:
 	-$(MAKE) -C libtheora/builds clean
 	-$(MAKE) -C libvpx/builds clean
 	-$(MAKE) -C mozilla-release/builds clean
+	-$(MAKE) -C mozilla_firefox_stock/builds clean
 	-$(MAKE) -C ProcessSandbox clean
 	-$(MAKE) -C NASM_NaCl clean
 	-$(MAKE) -C node.bcrypt.js clean
