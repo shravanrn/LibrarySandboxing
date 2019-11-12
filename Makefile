@@ -6,7 +6,7 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown
 
 builds_deps:
 	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf build-essential libtool automake libmarkdown2-dev
@@ -42,6 +42,9 @@ libtheora:
 libvpx:
 	git clone https://github.com/shravanrn/libvpx.git $@
 	cd $@ && git checkout ff_custom
+
+libvorbis:
+	git clone https://github.com/shravanrn/libvorbis.git $@
 
 NASM_NaCl :
 	git clone https://github.com/shravanrn/NASM_NaCl.git $@
@@ -85,6 +88,7 @@ build: $(DIRS)
 	$(MAKE) -C libpng_nacl/builds build
 	$(MAKE) -C libtheora/builds build
 	$(MAKE) -C libvpx/builds build
+	$(MAKE) -C libvorbis/builds build
 	$(MAKE) -C ProcessSandbox all64
 	$(MAKE) -C libjpeg-turbo/builds all64  # now the examples as well
 	$(MAKE) -C mozilla-release/builds minbuild64
@@ -99,6 +103,7 @@ pull: $(DIRS)
 	cd libpng_nacl && git pull
 	cd libtheora && git pull
 	cd libvpx && git pull
+	cd libvorbis && git pull
 	cd mozilla-release && git pull
 	cd ProcessSandbox && git pull
 	cd NASM_NaCl && git pull && ./configure
@@ -116,6 +121,7 @@ clean:
 	-$(MAKE) -C libpng_nacl/builds clean
 	-$(MAKE) -C libtheora/builds clean
 	-$(MAKE) -C libvpx/builds clean
+	-$(MAKE) -C libvorbis/builds clean
 	-$(MAKE) -C mozilla-release/builds clean
 	-$(MAKE) -C mozilla_firefox_stock/builds clean
 	-$(MAKE) -C ProcessSandbox clean
