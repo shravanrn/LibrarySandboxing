@@ -6,10 +6,10 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown
 
 builds_deps:
-	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf
+	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf build-essential libtool automake libmarkdown2-dev
 	# Need for some of the nacl compile tools
 	if [ ! -e "/usr/include/asm-generic" ]; then
 		sudo ln -s /usr/include/asm-generic /usr/include/asm
@@ -45,6 +45,7 @@ libvpx:
 
 NASM_NaCl :
 	git clone https://github.com/shravanrn/NASM_NaCl.git $@
+	cd $@ && ./configure
 
 mozilla-release :
 	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
@@ -68,9 +69,15 @@ web_resource_crawler:
 node.bcrypt.js:
 	git clone https://github.com/PLSysSec/node.bcrypt.js
 
+libmarkdown:
+	git clone https://github.com/PLSysSec/libmarkdown
+	cd $@ && ./configure
+
+mod_markdown:
+	git clone https://github.com/plsyssec/mod_markdown
+
 build: $(DIRS)
 	$(MAKE) -C mozilla-release/builds inithasrun
-	cd NASM_NaCl && ./configure
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
@@ -94,11 +101,13 @@ pull: $(DIRS)
 	cd libvpx && git pull
 	cd mozilla-release && git pull
 	cd ProcessSandbox && git pull
-	cd NASM_NaCl && git pull
+	cd NASM_NaCl && git pull && ./configure
 	cd rlbox-st-test && git pull
 	cd rlbox_api && git pull
 	cd web_resource_crawler && git pull
 	cd node.bcrypt.js && git pull
+	cd libmarkdown && git pull && ./configure.sh
+	cd mod_markdown && git pull
 
 clean:
 	-$(MAKE) -C Sandboxing_NaCl clean
@@ -112,3 +121,5 @@ clean:
 	-$(MAKE) -C ProcessSandbox clean
 	-$(MAKE) -C NASM_NaCl clean
 	-$(MAKE) -C node.bcrypt.js clean
+	-$(MAKE) -C libmarkdown clean
+	-$(MAKE) -C mod_markdown clean
