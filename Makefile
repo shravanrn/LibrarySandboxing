@@ -6,7 +6,7 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build64
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime
 
 builds_deps:
 	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf build-essential libtool automake libmarkdown2-dev
@@ -79,7 +79,11 @@ libmarkdown:
 mod_markdown:
 	git clone https://github.com/plsyssec/mod_markdown
 
+cgmemtime:
+	git clone https://github.com/shravanrn/cgmemtime
+
 build: $(DIRS)
+	$(MAKE) -C cgmemtime
 	$(MAKE) -C mozilla-release/builds inithasrun
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
@@ -97,6 +101,7 @@ build: $(DIRS)
 
 pull: $(DIRS)
 	git pull
+	cd cgmemtime && git pull
 	cd Sandboxing_NaCl && git pull
 	cd libjpeg-turbo && git pull
 	cd zlib_nacl && git pull
@@ -115,6 +120,7 @@ pull: $(DIRS)
 	cd mod_markdown && git pull
 
 clean:
+	-$(MAKE) -C cgmemtime clean
 	-$(MAKE) -C Sandboxing_NaCl clean
 	-$(MAKE) -C libjpeg-turbo/builds clean
 	-$(MAKE) -C zlib_nacl/builds clean
