@@ -93,8 +93,8 @@ build: $(DIRS)
 	$(MAKE) -C NASM_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
-	$(MAKE) -C zlib_nacl/builds build
-	$(MAKE) -C libpng_nacl/builds build
+	$(MAKE) -C zlib_nacl/builds build64
+	$(MAKE) -C libpng_nacl/builds build64
 	$(MAKE) -C libtheora/builds build
 	$(MAKE) -C libvpx/builds build
 	$(MAKE) -C libvorbis/builds build
