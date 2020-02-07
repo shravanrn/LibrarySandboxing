@@ -8,16 +8,16 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 SHELL := /bin/bash
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime
+DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime pnacl_llvm_modified pnacl_clang_modified
 
 build_deps:
-	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm
+	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm
 	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
 	source ~/.profile
 	rustup default 1.37.0
 	source ~/.cargo/env
 	# Need for some of the nacl compile tools
-	if [ ! -e "/usr/include/asm-generic" ]; then \
+	if [ ! -e "/usr/include/asm" ]; then \
 		sudo ln -s /usr/include/asm-generic /usr/include/asm; \
 	fi
 	touch ./build_deps
@@ -89,10 +89,19 @@ mod_markdown:
 cgmemtime:
 	git clone git@github.com:shravanrn/cgmemtime.git
 
+pnacl_llvm_modified:
+	git clone git@github.com:shravanrn/nacl-llvm.git $@
+
+pnacl_clang_modified:
+	git clone git@github.com:shravanrn/nacl-clang.git $@
+
 build: $(DIRS)
 	$(MAKE) -C cgmemtime
 	$(MAKE) -C mozilla-release/builds inithasrun
+	# skip rebootstrapping for firefox stock
+	touch mozilla_firefox_stock/builds/inithasrun
 	$(MAKE) -C NASM_NaCl
+	# Separate copy of pnacl_llvm_modified and pnacl_clang_modified built as part of Sandboxing_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
 	$(MAKE) -C libjpeg-turbo/builds build64  # just the builds, not the examples
 	$(MAKE) -C zlib_nacl/builds build64
@@ -109,6 +118,8 @@ build: $(DIRS)
 pull: $(DIRS)
 	git pull
 	cd cgmemtime && git pull
+	cd pnacl_llvm_modified && git pull
+	cd pnacl_clang_modified && git pull
 	cd Sandboxing_NaCl && git pull
 	cd libjpeg-turbo && git pull
 	cd zlib_nacl && git pull
