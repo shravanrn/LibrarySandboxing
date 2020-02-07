@@ -23,64 +23,64 @@ gyp :
 	cd gyp && sudo python setup.py install
 
 Sandboxing_NaCl :
-	git clone https://github.com/shravanrn/Sandboxing_NaCl.git $@
+	git clone git@github.com:shravanrn/Sandboxing_NaCl.git $@
 
 libjpeg-turbo :
-	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git $@
+	git clone git@github.com:shravanrn/libjpeg-turbo_nacltests.git $@
 	cd libjpeg-turbo && git checkout 1.4.x
 
 libpng_nacl:
-	git clone https://github.com/shravanrn/libpng_nacl.git $@
+	git clone git@github.com:shravanrn/libpng_nacl.git $@
 	cd $@ && git checkout 1.6.31
 
 zlib_nacl:
-	git clone https://github.com/shravanrn/zlib_nacl.git $@
+	git clone git@github.com:shravanrn/zlib_nacl.git $@
 
 libtheora:
-	git clone https://github.com/shravanrn/libtheora.git $@
+	git clone git@github.com:shravanrn/libtheora.git $@
 
 libvpx:
-	git clone https://github.com/shravanrn/libvpx.git $@
+	git clone git@github.com:shravanrn/libvpx.git $@
 	cd $@ && git checkout ff_custom
 
 libvorbis:
-	git clone https://github.com/shravanrn/libvorbis.git $@
+	git clone git@github.com:shravanrn/libvorbis.git $@
 
 NASM_NaCl :
-	git clone https://github.com/shravanrn/NASM_NaCl.git $@
+	git clone git@github.com:shravanrn/NASM_NaCl.git $@
 	cd $@ && ./configure
 
 mozilla-release :
-	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
+	git clone git@github.com:shravanrn/mozilla_firefox_nacl.git $@
 
 mozilla_firefox_stock:
-	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
+	git clone git@github.com:shravanrn/mozilla_firefox_nacl.git $@
 	cd $@ && git checkout vanilla
 
 ProcessSandbox :
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking $@
 
 rlbox-st-test:
-	git clone https://github.com/PLSysSec/rlbox-st-test.git
+	git clone git@github.com:PLSysSec/rlbox-st-test.git
 
 rlbox_api:
-	git clone https://github.com/shravanrn/rlbox_api.git
+	git clone git@github.com:shravanrn/rlbox_api.git
 
 web_resource_crawler:
-	git clone https://github.com/shravanrn/web_resource_crawler.git
+	git clone git@github.com:shravanrn/web_resource_crawler.git
 
 node.bcrypt.js:
-	git clone https://github.com/PLSysSec/node.bcrypt.js
+	git clone git@github.com:PLSysSec/node.bcrypt.js.git
 
 libmarkdown:
-	git clone https://github.com/PLSysSec/libmarkdown
+	git clone git@github.com:PLSysSec/libmarkdown.git
 	cd $@ && ./configure
 
 mod_markdown:
-	git clone https://github.com/plsyssec/mod_markdown
+	git clone git@github.com:plsyssec/mod_markdown.git
 
 cgmemtime:
-	git clone https://github.com/shravanrn/cgmemtime
+	git clone git@github.com:shravanrn/cgmemtime.git
 
 build: $(DIRS)
 	$(MAKE) -C cgmemtime
