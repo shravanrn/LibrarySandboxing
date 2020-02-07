@@ -12,7 +12,9 @@ DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-
 
 build_deps:
 	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm
-	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
+	source ~/.profile
+	rustup default 1.37.0
 	source ~/.cargo/env
 	# Need for some of the nacl compile tools
 	if [ ! -e "/usr/include/asm-generic" ]; then \
