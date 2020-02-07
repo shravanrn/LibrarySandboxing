@@ -2,24 +2,26 @@ DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
 export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .NOTPARALLEL:
-.PHONY : build_deps build pull clean
+.PHONY : build pull clean
 
-.DEFAULT_GOAL := build64
+.DEFAULT_GOAL := build
 
 DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime
 
-builds_deps:
-	sudo apt -y install python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf build-essential libtool automake libmarkdown2-dev
+build_deps:
+	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build npm nodejs cloc flex bison git libc6-dev-i386 texinfo gcc-arm-linux-gnueabihf build-essential libtool automake libmarkdown2-dev
+	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
+	source ~/.cargo/env
 	# Need for some of the nacl compile tools
 	if [ ! -e "/usr/include/asm-generic" ]; then
 		sudo ln -s /usr/include/asm-generic /usr/include/asm
 	fi
+	touch ./build_deps
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
 
 gyp :
-	sudo apt-get install python-setuptools
 	git clone https://chromium.googlesource.com/external/gyp.git $@
 	cd gyp && sudo python setup.py install
 
