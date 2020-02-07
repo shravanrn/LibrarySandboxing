@@ -19,6 +19,7 @@ depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
 
 gyp :
+	sudo apt-get install python-setuptools
 	git clone https://chromium.googlesource.com/external/gyp.git $@
 	cd gyp && sudo python setup.py install
 
