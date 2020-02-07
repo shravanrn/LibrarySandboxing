@@ -6,6 +6,8 @@ export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .DEFAULT_GOAL := build
 
+SHELL := /bin/bash
+
 DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime
 
 build_deps:
@@ -13,8 +15,8 @@ build_deps:
 	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
 	source ~/.cargo/env
 	# Need for some of the nacl compile tools
-	if [ ! -e "/usr/include/asm-generic" ]; then
-		sudo ln -s /usr/include/asm-generic /usr/include/asm
+	if [ ! -e "/usr/include/asm-generic" ]; then \
+		sudo ln -s /usr/include/asm-generic /usr/include/asm; \
 	fi
 	touch ./build_deps
 
