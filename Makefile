@@ -75,7 +75,7 @@ node.bcrypt.js:
 
 libmarkdown:
 	git clone git@github.com:PLSysSec/libmarkdown.git
-	cd $@ && ./configure
+	cd $@ && ./configure.sh
 
 mod_markdown:
 	git clone git@github.com:plsyssec/mod_markdown.git
