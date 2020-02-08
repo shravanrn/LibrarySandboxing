@@ -146,7 +146,7 @@ pull: $(DIRS)
 	cd rlbox_api && git pull
 	cd web_resource_crawler && git pull
 	cd node.bcrypt.js && git pull
-	cd libmarkdown && git pull && ./configure.sh
+	cd libmarkdown && git pull && ./configure.sh --shared
 	cd mod_markdown && git pull
 
 clean:
