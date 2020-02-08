@@ -12,7 +12,7 @@ DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release moz
 
 CURR_DIR := $(shell realpath ./)
 
-install_sys_pkg:
+bootstrap:
 	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils apache2 apache2-dev
 	# Have to install separately, else ubuntu has some package install issues
 	sudo apt -y install gcc-arm-linux-gnueabihf
@@ -22,7 +22,7 @@ install_sys_pkg:
 	if [ ! -e "/usr/include/asm" ]; then \
 		sudo ln -s /usr/include/asm-generic /usr/include/asm; \
 	fi
-	touch ./install_sys_pkg
+	touch ./bootstrap
 	@echo "--------------------------------------------------------------------------"
 	@echo "Attention!!!!!!:"
 	@echo ""
@@ -31,28 +31,9 @@ install_sys_pkg:
 	@echo ""
 	@echo "Run the command:"
 	@echo "source ~/.profile"
-	@echo "then re-rerun make"
+	@echo "and run 'make' to build the source"
 	@echo ""
-	@echo "The makefile will report an error below."
-	@echo "Ignore this. This is expected."
 	@echo "--------------------------------------------------------------------------"
-	exit 1
-
-install_deps: install_sys_pkg $(DIRS)
-	# build cgmemtime to setup the permissions group
-	$(MAKE) -C cgmemtime
-	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
-		cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775; \
-	fi
-	# Install gyp
-	cd gyp && sudo python setup.py install
-	# bootstrap firefox
-	$(MAKE) -C mozilla-release/builds initbootstrap
-	# skip rebootstrapping for firefox stock
-	touch mozilla_firefox_stock/builds/initbootstrap
-	# setup apache to use our eventually built mod_markdown
-	sudo $(MAKE) -C mod_markdown install
-	touch ./install_deps
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
@@ -125,6 +106,27 @@ pnacl_clang_modified:
 	git clone git@github.com:shravanrn/nacl-clang.git $@
 
 get_source: $(DIRS)
+
+install_deps: get_source
+	if [ ! -e "$(CURR_DIR)/bootstrap" ]; then \
+		@echo "Before building, run the following commands" ; \
+		@echo "make bootstrap" ; \
+		@echo "source ~/.profile" ; \
+	fi
+	# build cgmemtime to setup the permissions group
+	$(MAKE) -C cgmemtime
+	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
+		cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775; \
+	fi
+	# Install gyp
+	cd gyp && sudo python setup.py install
+	# bootstrap firefox
+	$(MAKE) -C mozilla-release/builds initbootstrap
+	# skip rebootstrapping for firefox stock
+	touch mozilla_firefox_stock/builds/initbootstrap
+	# setup apache to use our eventually built mod_markdown
+	sudo $(MAKE) -C mod_markdown install
+	touch ./install_deps
 
 pull: get_source
 	git pull

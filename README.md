@@ -42,7 +42,9 @@ To build the repo, run
 ```bash
 # This installs required packages on the system.
 # Only need to run once per system.
-make install_deps
+make bootstrap
+# load the changes
+source ~/.profile
 # Build the world
 make
 ```
