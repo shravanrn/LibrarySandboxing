@@ -23,13 +23,16 @@ install_sys_pkg:
 		sudo ln -s /usr/include/asm-generic /usr/include/asm; \
 	fi
 	touch ./install_sys_pkg
-	echo "--------------------------------------------------------------------------"
-	echo "Installed new packages. You need to reload the bash env before proceeding."
-	echo "Run the command:"
-	echo "source ~/.profile"
-	echo "then re-rerun make"
-	echo "The makefile will report an error below. Ignore this. This is expected."
-	echo "--------------------------------------------------------------------------"
+	@echo "--------------------------------------------------------------------------"
+	@echo "Attention!!!!!!:
+	@echo "Installed new packages."
+	@echo "You need to reload the bash env before proceeding."
+	@echo "Run the command:"
+	@echo "source ~/.profile"
+	@echo "then re-rerun make"
+	@echo "The makefile will report an error below."
+	@echo "Ignore this. This is expected."
+	@echo "--------------------------------------------------------------------------"
 	exit 1
 
 install_deps: install_sys_pkg $(DIRS)
