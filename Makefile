@@ -52,7 +52,6 @@ install_deps: install_sys_pkg $(DIRS)
 	touch mozilla_firefox_stock/builds/initbootstrap
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
-	sudo apache2ctl start
 	touch ./install_deps
 
 depot_tools :
@@ -166,6 +165,8 @@ build: install_deps pull
 	$(MAKE) -C node.bcrypt.js build
 	$(MAKE) -C libmarkdown all
 	$(MAKE) -C mod_markdown
+	-sudo apache2ctl stop
+	sudo apache2ctl start
 
 clean:
 	-$(MAKE) -C cgmemtime clean
