@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
 then
     echo "Run script ${BASH_SOURCE[0]} as 'source ${BASH_SOURCE[0]}'"
@@ -15,8 +16,10 @@ sudo cpufreq-set -c 3 -g performance
 sudo cpufreq-set -c 1 --min 2200MHz --max 2200MHz
 sudo cpufreq-set -c 3 --min 2200MHz --max 2200MHz
 
+# Disable networking
 nmcli n off
 
+# Create a new display to run firefox headless
 Xvfb :99 &
 export DISPLAY=:99
 
