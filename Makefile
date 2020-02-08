@@ -165,6 +165,12 @@ build: install_deps pull
 	$(MAKE) -C node.bcrypt.js build
 	$(MAKE) -C libmarkdown all
 	$(MAKE) -C mod_markdown
+	@echo "--------------------------------------------------------------------------"
+	@echo "Nearly at the end!!!!!!:"
+	@echo ""
+	@echo "We may need root password one more time to (re)start apache."
+	@echo ""
+	@echo "--------------------------------------------------------------------------"
 	-sudo apache2ctl stop
 	sudo apache2ctl start
 
