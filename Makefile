@@ -14,6 +14,8 @@ CURR_DIR := $(shell realpath ./)
 
 install_sys_pkg:
 	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils apache2 apache2-dev
+	# Have to install separately, else ubuntu has some package install issues
+	sudo apt -y install gcc-arm-linux-gnueabihf
 	sudo npm install -g autocannon
 	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain 1.37.0 -y
 	# Need for some of the nacl compile tools
