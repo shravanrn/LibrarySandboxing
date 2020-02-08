@@ -135,12 +135,12 @@ pull: get_source
 	cd libvorbis && git pull
 	cd mozilla-release && git pull
 	cd ProcessSandbox && git pull
-	cd NASM_NaCl && $(CURR_DIR)/git_needs_update && git pull && ./configure
+	-cd NASM_NaCl && $(CURR_DIR)/git_needs_update && git pull && ./configure
 	cd rlbox-st-test && git pull
 	cd rlbox_api && git pull
 	cd web_resource_crawler && git pull
 	cd node.bcrypt.js && git pull
-	cd libmarkdown && $(CURR_DIR)/git_needs_update && git pull && ./configure.sh --shared
+	-cd libmarkdown && $(CURR_DIR)/git_needs_update && git pull && ./configure.sh --shared
 	cd mod_markdown && git pull
 
 build: install_deps pull
