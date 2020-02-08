@@ -24,7 +24,9 @@ install_sys_pkg:
 install_deps: install_sys_pkg $(DIRS)
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
-	cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
+	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
+		cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775; \
+	fi
 	# bootstrap firefox
 	$(MAKE) -C mozilla-release/builds initbootstrap
 	# skip rebootstrapping for firefox stock
