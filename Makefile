@@ -23,6 +23,11 @@ build_deps:
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
 	cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
+	# bootstrap firefox
+	$(MAKE) -C mozilla-release/builds initbootstrap
+	# skip rebootstrapping for firefox stock
+	touch mozilla_firefox_stock/builds/initbootstrap
+
 	touch ./build_deps
 
 depot_tools :
@@ -98,10 +103,7 @@ pnacl_llvm_modified:
 pnacl_clang_modified:
 	git clone git@github.com:shravanrn/nacl-clang.git $@
 
-build: $(DIRS)
-	$(MAKE) -C mozilla-release/builds inithasrun
-	# skip rebootstrapping for firefox stock
-	touch mozilla_firefox_stock/builds/inithasrun
+build: build_deps $(DIRS)
 	$(MAKE) -C NASM_NaCl
 	# Separate copy of pnacl_llvm_modified and pnacl_clang_modified built as part of Sandboxing_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
