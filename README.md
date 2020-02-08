@@ -134,7 +134,8 @@ make bench
 6. Continuing the prior evaluation, we also evaluate the throughput of apache web server's markdown to html conversion. Expected duration: 0.25 days
 
 ```bash
-TODO
+cd ./mod_markdown
+make bench
 ```
 
 7. We also provide a benchmark of a sandboxing the Graphite font library (using a WASM based SFI) which has been upstreamed and is currently in Firefox nightly. This is easiest to test directly with the nightly builds made available by Mozilla. Download the nightly build with the sandboxed font library [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-03-20-22-40-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2) and a build from a nightly that does not have this, available [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-01-09-29-38-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2). Visit the following [webpage](https://jfkthame.github.io/test/udhr_urd.html) which runs a micro benchmark on Graphite fonts on both builds. Expected duration: 15 mins.
