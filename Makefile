@@ -33,7 +33,7 @@ build_deps:
 	sudo $(MAKE) -C libmarkdown install
 	$(MAKE) -C mod_markdown
 	sudo $(MAKE) -C mod_markdown install
-	sudo apachectl start
+	sudo apache2ctl start
 	touch ./build_deps
 
 depot_tools :
