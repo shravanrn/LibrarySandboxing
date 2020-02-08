@@ -42,7 +42,7 @@ To build the repo, run
 ```bash
 # This installs required packages on the system.
 # Only need to run once per system.
-make build_deps
+make install_deps
 # Build the world
 make
 ```

@@ -2,16 +2,16 @@ DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
 export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .NOTPARALLEL:
-.PHONY : build pull clean
+.PHONY : build pull clean install_sys_pkg install_deps
 
 .DEFAULT_GOAL := build
 
 SHELL := /bin/bash
 
-DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime pnacl_llvm_modified pnacl_clang_modified
+DIRS=depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime pnacl_llvm_modified pnacl_clang_modified
 
-build_deps:
-	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils apache2 apache2-dev
+install_sys_pkg:
+	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils apache2 apache2-dev
 	sudo npm install -g autocannon
 	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
 	source ~/.profile
@@ -21,6 +21,9 @@ build_deps:
 	if [ ! -e "/usr/include/asm" ]; then \
 		sudo ln -s /usr/include/asm-generic /usr/include/asm; \
 	fi
+	touch ./install_sys_pkg
+
+install_deps: install_sys_pkg $(DIRS)
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
 	cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
@@ -34,7 +37,7 @@ build_deps:
 	$(MAKE) -C mod_markdown
 	sudo $(MAKE) -C mod_markdown install
 	sudo apache2ctl start
-	touch ./build_deps
+	touch ./install_deps
 
 depot_tools :
 	git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $@
@@ -109,7 +112,7 @@ pnacl_llvm_modified:
 pnacl_clang_modified:
 	git clone git@github.com:shravanrn/nacl-clang.git $@
 
-build: build_deps $(DIRS)
+build: install_deps $(DIRS)
 	$(MAKE) -C NASM_NaCl
 	# Separate copy of pnacl_llvm_modified and pnacl_clang_modified built as part of Sandboxing_NaCl
 	$(MAKE) -C Sandboxing_NaCl buildopt64
