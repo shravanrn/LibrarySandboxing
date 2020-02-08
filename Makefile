@@ -2,7 +2,7 @@ DEPOT_TOOLS_PATH := $(shell realpath ./depot_tools)
 export PATH := $(DEPOT_TOOLS_PATH):$(PATH)
 
 .NOTPARALLEL:
-.PHONY : build pull clean install_sys_pkg install_deps
+.PHONY : build pull clean
 
 .DEFAULT_GOAL := build
 
