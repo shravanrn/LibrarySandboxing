@@ -11,7 +11,7 @@ SHELL := /bin/bash
 DIRS=build_deps depot_tools gyp Sandboxing_NaCl libjpeg-turbo NASM_NaCl mozilla-release mozilla_firefox_stock ProcessSandbox libpng_nacl zlib_nacl libtheora libvpx libvorbis rlbox-st-test rlbox_api web_resource_crawler node.bcrypt.js libmarkdown mod_markdown cgmemtime pnacl_llvm_modified pnacl_clang_modified
 
 build_deps:
-	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils
+	sudo apt -y install curl python-setuptools autoconf libtool libseccomp-dev clang llvm cmake ninja-build libssl1.0-dev npm nodejs cloc flex bison git texinfo gcc-arm-linux-gnueabihf gcc-7-multilib g++-7-multilib build-essential libtool automake libmarkdown2-dev linux-libc-dev:i386 nasm cpufrequtils apache2 apache2-dev
 	curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none -y
 	source ~/.profile
 	rustup default 1.37.0
@@ -27,7 +27,12 @@ build_deps:
 	$(MAKE) -C mozilla-release/builds initbootstrap
 	# skip rebootstrapping for firefox stock
 	touch mozilla_firefox_stock/builds/initbootstrap
-
+	# install markdown
+	$(MAKE) -C libmarkdown all
+	sudo $(MAKE) -C libmarkdown install
+	$(MAKE) -C mod_markdown
+	sudo $(MAKE) -C mod_markdown install
+	sudo apachectl start
 	touch ./build_deps
 
 depot_tools :
@@ -89,7 +94,7 @@ node.bcrypt.js:
 
 libmarkdown:
 	git clone git@github.com:PLSysSec/libmarkdown.git
-	cd $@ && ./configure.sh
+	cd $@ && ./configure.sh --shared
 
 mod_markdown:
 	git clone git@github.com:plsyssec/mod_markdown.git
