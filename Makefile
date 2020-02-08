@@ -31,10 +31,7 @@ install_deps: install_sys_pkg $(DIRS)
 	$(MAKE) -C mozilla-release/builds initbootstrap
 	# skip rebootstrapping for firefox stock
 	touch mozilla_firefox_stock/builds/initbootstrap
-	# install markdown
-	$(MAKE) -C libmarkdown all
-	sudo $(MAKE) -C libmarkdown install
-	$(MAKE) -C mod_markdown
+	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
 	sudo apache2ctl start
 	touch ./install_deps
@@ -127,6 +124,8 @@ build: install_deps $(DIRS)
 	$(MAKE) -C mozilla-release/builds minbuild64
 	$(MAKE) -C mozilla_firefox_stock/builds build
 	$(MAKE) -C node.bcrypt.js build
+	$(MAKE) -C libmarkdown all
+	$(MAKE) -C mod_markdown
 
 pull: $(DIRS)
 	git pull
