@@ -150,3 +150,13 @@ cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
 ```
 
 2. If you see the error "taskset: failed to set pid 2231's affinity: Invalid argument", you are running on a machine with less than 4 cores. A limitation of the code here is that we assume a minimum of 4 cores. If you are in a VM, assign more cores.
+
+3. When running the apache benchmark, if you see the error "35 errors (0 timeouts)", apache configuration has messed up. A workaround here is to run the following in a new terminal.
+
+```bash
+sudo apache2ctl stop
+sudo bash
+/usr/sbin/apache2ctl -DFOREGROUND
+```
+
+Leave this running and re-attempt to run the apache benchmarks.
