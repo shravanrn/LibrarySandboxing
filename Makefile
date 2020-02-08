@@ -24,7 +24,7 @@ install_sys_pkg:
 	fi
 	touch ./install_sys_pkg
 	@echo "--------------------------------------------------------------------------"
-	@echo "Attention!!!!!!:
+	@echo "Attention!!!!!!:"
 	@echo "Installed new packages."
 	@echo "You need to reload the bash env before proceeding."
 	@echo "Run the command:"
