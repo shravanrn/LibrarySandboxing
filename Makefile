@@ -94,7 +94,7 @@ libmarkdown:
 	git clone git@github.com:PLSysSec/libmarkdown.git
 
 mod_markdown:
-	git clone git@github.com:plsyssec/mod_markdown.git
+	git clone git@github.com:PLSysSec/mod_markdown.git
 
 cgmemtime:
 	git clone git@github.com:shravanrn/cgmemtime.git
