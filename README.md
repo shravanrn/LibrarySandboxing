@@ -1,3 +1,12 @@
+- [Description](#description)
+- [Software being built by this repo](#software-being-built-by-this-repo)
+- [Build Instructions](#build-instructions)
+- [Test Instructions](#test-instructions)
+  - [Basic sanity tests](#basic-sanity-tests)
+  - [Macro benchmarks](#macro-benchmarks)
+  - [Micro benchmarks](#micro-benchmarks)
+- [Troubleshooting](#troubleshooting)
+
 # Description
 This is the top level repo for the paper "Retrofitting Fine Grain Isolation in the Firefox Renderer" submitted to USENIX 2020 in which we introduce the RLBox sandboxing framework. This repo will download and build all tools used in the paper, such as the multiple builds of firefox with sandboxed libraries, modified compilers, and the RLBox API.
 
@@ -34,6 +43,8 @@ Some other repos are pulled in to assist with building or benchmarking namely "d
 # Build Instructions
 
 **Requirements** - This repo has been tested on Ubuntu 18.04.4 LTS. Additionally, the process sandbox build of Firefox assumes you are on a machine with at least 4 cores.
+
+**Note** - Do not use an existing machine; our setup installs/modifies packages on the machine and has been well tested on a fresh Ubuntu Install. Use a fresh VM or machine.
 
 **Estimated build time**: Less than 24 hours
 
@@ -143,7 +154,7 @@ make bench
 7. We also provide a benchmark of a sandboxing the Graphite font library (using a WASM based SFI) which has been upstreamed and is currently in Firefox nightly. This is easiest to test directly with the nightly builds made available by Mozilla. Download the nightly build with the sandboxed font library [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-03-20-22-40-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2) and a build from a nightly that does not have this, available [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-01-09-29-38-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2). Visit the following [webpage](https://jfkthame.github.io/test/udhr_urd.html) which runs a micro benchmark on Graphite fonts on both builds. Expected duration: 15 mins.
 
 
-## Troubleshooting
+# Troubleshooting
 
 1. If you see the error "Could not create new sub-cgroup /sys/fs/cgroup/memory/cgmemtime/2179: No such file or directory", run the following
 
@@ -154,11 +165,9 @@ cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
 2. If you see the error "taskset: failed to set pid 2231's affinity: Invalid argument", you are running on a machine with less than 4 cores. A limitation of the code here is that we assume a minimum of 4 cores. If you are in a VM, assign more cores.
 
 3. When running the apache benchmark, if you see the error "35 errors (0 timeouts)", apache configuration has messed up. A workaround here is to run the following in a new terminal.
-
 ```bash
 sudo apache2ctl stop
 sudo bash
 /usr/sbin/apache2ctl -DFOREGROUND
+# Leave this terminal running and re-attempt to run the apache benchmarks.
 ```
-
-Leave this running and re-attempt to run the apache benchmarks.
