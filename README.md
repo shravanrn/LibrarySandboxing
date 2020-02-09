@@ -119,14 +119,23 @@ make -C ./mozilla-release/builds run64_newpscpp
 
 ### Instructions
 
-1. We also have micro benchmarks on the same three builds performed on four classes of libraries ---- image libraries, audio libraries, video libraries, webpage decompression. Each of these have separate micro benchmarks that are included in the artifact. We start with images, for which we measure the decoding times for the three Firefox builds on a variety of jpegs and pngs in different formats.  Expected duration: 1.5 days. To run
+1. We also have micro benchmarks on the same three builds performed on four classes of libraries ---- image libraries, audio libraries, video libraries, webpage decompression. Each of these have separate micro benchmarks that are included in the artifact. We start with images, for which we measure the decoding times for the three Firefox builds on a variety of jpegs and pngs in different formats.  Expected duration: 1.5 days.
 
     ```bash
     cd ./mozilla-release
     ./newRunMicroImageTest ~/Desktop/rlbox_micro_image_logs
     ```
 
-2. We continue the microbenchmark with evaluating webpage decompression with zlib. Expected duration: 1.5 days. To run
+2. We continue the microbenchmark with evaluating webpage decompression with zlib. Expected duration: 1.5 days.
+
+    In a separate terminal first run
+
+    ```bash
+    cd ./rlbox-st-test/ && node server.js
+    # Leave this running
+    ```
+
+    then run,
 
     ```bash
     cd ./mozilla-release
