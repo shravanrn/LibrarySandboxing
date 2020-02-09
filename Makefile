@@ -130,8 +130,11 @@ install_deps: bootstrap_check get_source
 	touch mozilla_firefox_stock/builds/initbootstrap
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
-	./web_resource_crawler/install.py
 	-sudo apache2ctl stop
+	# setup manifest for local component to extension
+	./web_resource_crawler/install.py
+	# setup local server dependencies for compression and scaling tests
+	cd rlbox-st-test && npm install
 	touch ./install_deps
 
 pull: get_source
