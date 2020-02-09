@@ -59,7 +59,7 @@ To build the repo, run
 make bootstrap
 # load the changes
 source ~/.profile
-# Build the world
+# Download all sub-repos and build the world
 make
 ```
 
