@@ -126,6 +126,7 @@ install_deps: get_source
 	touch mozilla_firefox_stock/builds/initbootstrap
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
+	./web_resource_crawler/install.py
 	touch ./install_deps
 
 pull: get_source

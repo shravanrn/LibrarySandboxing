@@ -5,9 +5,12 @@
   - [Basic sanity tests](#basic-sanity-tests)
   - [Macro benchmarks](#macro-benchmarks)
   - [Micro benchmarks](#micro-benchmarks)
+    - [Caveats](#caveats)
+    - [Instructions](#instructions)
 - [Troubleshooting](#troubleshooting)
 
 # Description
+
 This is the top level repo for the paper "Retrofitting Fine Grain Isolation in the Firefox Renderer" submitted to USENIX 2020 in which we introduce the RLBox sandboxing framework. This repo will download and build all tools used in the paper, such as the multiple builds of firefox with sandboxed libraries, modified compilers, and the RLBox API.
 
 **Note** - this repo contains code used in our research prototypes. This is **not production ready**. A production ready version of RLBox is available [here](https://github.com/PLSysSec/rlbox_sandboxing_api) with accompanying documentation [here](https://docs.rlbox.dev/). The production ready version is being used by the Firefox browser.
@@ -68,106 +71,124 @@ After building the repo, you can reproduce the tests we perform in the RLBox pap
 
 We do multiple builds (around 10 different builds) of Firefox testing costs of different aspects of sandboxing. For a full list, see the Makefile and Readme of the mozilla-release repo. However, the 2 builds to focus on are  Firefox builds that use rlbox API + NaCl or Process sandboxing to sandbox libjpeg, libpng, zlib, libvorbix, libtheora, libvpx. To browse the web with these builds, run
 
-
 ```bash
 # Run Firefox with RLBox API and NaCl sandboxing
 make -C ./mozilla-release/builds run64_newnaclcpp
 # Run Firefox with RLBox API and Process sandboxing
 # Minimum 4 core system required
 make -C ./mozilla-release/builds run64_newpscpp
-
 ```
 
 ## Macro benchmarks
 
-1. We have a web crawler written as firefox extension that scrapes the Alexa top 500 websites and analyses the resources used by the webpage. This is written as a Firefox extension. Expected duration: 2 hours. To run
+1. We have a web crawler written as firefox extension that scrapes the Alexa top 500 websites and analyses the resources used by the webpage. This is written as a Firefox extension. Expected duration: 2 hours. To run, we will follow the steps as outlined [here](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/) reproduced below
+    - Open Firefox browser (we need Firefox version > 65, so open the one that ships with the OS, not the one we built). Then type Type about:debugging in the Firefox URL bar.
+    - Enter “about:debugging” in the URL bar
+    - Click “This Firefox”
+    - Click “Load Temporary Add-on”
+    - Open file "LibrarySandboxing/web_resource_crawler/manifest.json"
+    - You will see a new icon in the toolbar. Click this.
+    - The extension will now go through the Alexa top 500, and dumps the raw logs in "LibrarySandboxing/web_resource_crawler/out.json"
+    - Then run the following commands to process the data
 
-```bash
-TODO
-```
+        ```bash
+        mkdir -p "LibrarySandboxing/web_resource_crawler/data"
+        cd "LibrarySandboxing/web_resource_crawler/data"
+        ../process_logs.py
+        ```
+
+    - You will see the files "crossOriginAnalysis.json" and "memory_analysis.txt" in the folder "LibrarySandboxing/web_resource_crawler/data"
 
 2. We have three builds of Firefox included --- Stock Firefox, SFI(Native Client) Firefox, Process Firefox. We have a macro benchmark that measure page load times and memory overheads on these three builds on 11 representative sites on different builds. Expected duration: 0.5 days. To run
 
-```bash
-cd ./mozilla-release
-./newRunMacroPerfTest ~/Desktop/rlbox_macro_logs
-```
-
+    ```bash
+    cd ./mozilla-release
+    ./newRunMacroPerfTest ~/Desktop/rlbox_macro_logs
+    ```
 
 ## Micro benchmarks
 
-**Caveats**
+### Caveats
 
 - Note that many of these benchmarks are run with a very large number of iterations, on a variety of different media so that we can report realistic numbers. Thus each one of these tasks below can take the better part of a day and upto a day and a half. I have indicated the expected time below. I will also provide instructions to reduce the number of iterations for the purpose of the artifact eval, but note that this may affect the numbers as benchmarks will be more prone to noise.
 
 - Specific choices during machine setup were made to reduce noise during benchmarks, namely disabling hyper-threading, disabling dynamic frequency scaling and pinning the CPU to a low frequency which will not introduce thermal throttling, isolating the CPUs on which we run tests using the isolcpus boot kernel parameter and running Ubuntu without a GUI and running the benchmarks on headless Firefox. Part of this setup is automated in the file ``microBenchmarkTestSetup'' in this repo. If you decide not to do this setup, this will likely result in the reported numbers being more noisy than reported.
 - If running on a VM, it is unlikely some of the benchmarking setup listed in the prior bullet will work particularly well. In particular, the video benchamark and measurements are quite unreliable in this setting.
 
+### Instructions
+
 1. We also have micro benchmarks on the same three builds performed on four classes of libraries ---- image libraries, audio libraries, video libraries, webpage decompression. Each of these have separate micro benchmarks that are included in the artifact. We start with images, for which we measure the decoding times for the three Firefox builds on a variety of jpegs and pngs in different formats.  Expected duration: 1.5 days. To run
 
-```bash
-cd ./mozilla-release
-./newRunMicroImageTest ~/Desktop/rlbox_micro_image_logs
-```
+    ```bash
+    cd ./mozilla-release
+    ./newRunMicroImageTest ~/Desktop/rlbox_micro_image_logs
+    ```
 
 2. We continue the microbenchmark with evaluating webpage decompression with zlib. Expected duration: 1.5 days. To run
 
-```bash
-cd ./mozilla-release
-./newRunMicroZlibTest ~/Desktop/rlbox_micro_compression_logs
-```
+    ```bash
+    cd ./mozilla-release
+    ./newRunMicroZlibTest ~/Desktop/rlbox_micro_compression_logs
+    ```
 
 3. We continue the microbenchmark with evaluating audio and video performance by measuring Vorbis audio bit rate and  throughput on a high quality audio file measuring VPX and Theora bit rate throughput on a high quality video file on the three Firefox builds. Expected duration: 1.5 hours.
 
-```bash
-cd ./mozilla-release
-./newRunMicroAVTest ~/Desktop/rlbox_micro_audiovideo_logs
-```
+    ```bash
+    cd ./mozilla-release
+    ./newRunMicroAVTest ~/Desktop/rlbox_micro_audiovideo_logs
+    ```
 
 4. We also have scaling tests which separately test the total number of sandboxes that can reasonably be created and measure image decoding times for the same. Expected duration: 1.5 days.
 
-In a separate terminal first run
-```bash
-cd ./rlbox-st-test/ && node server.js
-```
+    In a separate terminal first run
 
-then run,
-```bash
-cd ./mozilla-release
-./newRunMicroImageScaleTest ~/Desktop/rlbox_micro_scaling_logs
-```
+    ```bash
+    cd ./rlbox-st-test/ && node server.js
+    # Leave this running
+    ```
+
+    then run,
+
+    ```bash
+    cd ./mozilla-release
+    ./newRunMicroImageScaleTest ~/Desktop/rlbox_micro_scaling_logs
+    ```
 
 5. We also evaluate use of our sandboxing techniques outside of firefox by measuring throughput of two other applications. We first evaluate the throughput of a crypto module in node.js. Expected duration: 0.5 days.
 
-```bash
-cd ./node.bcrypt.js
-make bench
-```
+    ```bash
+    cd ./node.bcrypt.js
+    make bench
+    ```
 
 6. Continuing the prior evaluation, we also evaluate the throughput of apache web server's markdown to html conversion. Expected duration: 0.25 days
 
-```bash
-cd ./mod_markdown
-make bench
-```
+    In a separate terminal first run
+
+    ```bash
+    sudo apache2ctl stop
+    sudo bash
+    /usr/sbin/apache2ctl -DFOREGROUND
+    # Leave this running
+    ```
+
+    then run,
+
+    ```bash
+    cd ./mod_markdown
+    make bench
+    ```
 
 7. We also provide a benchmark of a sandboxing the Graphite font library (using a WASM based SFI) which has been upstreamed and is currently in Firefox nightly. This is easiest to test directly with the nightly builds made available by Mozilla. Download the nightly build with the sandboxed font library [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-03-20-22-40-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2) and a build from a nightly that does not have this, available [here](https://ftp.mozilla.org/pub/firefox/nightly/2020/01/2020-01-01-09-29-38-mozilla-central/firefox-73.0a1.en-US.linux-x86_64.tar.bz2). Visit the following [webpage](https://jfkthame.github.io/test/udhr_urd.html) which runs a micro benchmark on Graphite fonts on both builds. Expected duration: 15 mins.
-
 
 # Troubleshooting
 
 1. If you see the error "Could not create new sub-cgroup /sys/fs/cgroup/memory/cgmemtime/2179: No such file or directory", run the following
 
-```bash
-cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
-```
+    ```bash
+    cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
+    ```
 
 2. If you see the error "taskset: failed to set pid 2231's affinity: Invalid argument", you are running on a machine with less than 4 cores. A limitation of the code here is that we assume a minimum of 4 cores. If you are in a VM, assign more cores.
 
-3. When running the apache benchmark, if you see the error "35 errors (0 timeouts)", apache configuration has messed up. A workaround here is to run the following in a new terminal.
-```bash
-sudo apache2ctl stop
-sudo bash
-/usr/sbin/apache2ctl -DFOREGROUND
-# Leave this terminal running and re-attempt to run the apache benchmarks.
-```
+3. If you see the error "Could not remove sub-cgroup /sys/fs/cgroup/memory/cgmemtime/19176: Device or resource busy", something went wrong with your hard-drive, re-run the benchmark.
