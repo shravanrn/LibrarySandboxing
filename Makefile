@@ -127,6 +127,7 @@ install_deps: get_source
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
 	./web_resource_crawler/install.py
+	-sudo apache2ctl stop
 	touch ./install_deps
 
 pull: get_source
@@ -168,14 +169,6 @@ build: install_deps pull
 	$(MAKE) -C node.bcrypt.js build
 	$(MAKE) -C libmarkdown all
 	$(MAKE) -C mod_markdown
-	@echo "--------------------------------------------------------------------------"
-	@echo "Nearly at the end!!!!!!:"
-	@echo ""
-	@echo "We may need root password one more time to (re)start apache."
-	@echo ""
-	@echo "--------------------------------------------------------------------------"
-	-sudo apache2ctl stop
-	sudo apache2ctl start
 
 clean:
 	-$(MAKE) -C cgmemtime clean
