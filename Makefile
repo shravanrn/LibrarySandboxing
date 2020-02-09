@@ -108,12 +108,15 @@ pnacl_clang_modified:
 
 get_source: $(DIRS)
 
-install_deps: get_source
+bootstrap_check:
 	if [ ! -e "$(CURR_DIR)/bootstrap" ]; then \
 		@echo "Before building, run the following commands" ; \
 		@echo "make bootstrap" ; \
 		@echo "source ~/.profile" ; \
+		exit 1; \
 	fi
+
+install_deps: bootstrap_check get_source
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
 	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
