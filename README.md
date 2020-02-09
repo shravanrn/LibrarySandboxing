@@ -108,6 +108,8 @@ make -C ./mozilla-release/builds run64_newpscpp
     ./newRunMacroPerfTest ~/Desktop/rlbox_macro_logs
     ```
 
+    **Note** - Firefox's test harness is primarily meant for local tests and isn't really setup to make network calls prior to our modifications of the harness. Our modified test harness is sometimes a little flaky, if the test harness gets stuck, and does not continue to iterate the tests, just re-run the test.
+
 ## Micro benchmarks
 
 ### Caveats
