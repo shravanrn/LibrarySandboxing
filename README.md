@@ -112,9 +112,8 @@ make -C ./mozilla-release/builds run64_newpscpp
 
 ### Caveats
 
-- Note that many of these benchmarks are run with a very large number of iterations, on a variety of different media so that we can report realistic numbers. Thus each one of these tasks below can take the better part of a day and upto a day and a half. I have indicated the expected time below. I will also provide instructions to reduce the number of iterations for the purpose of the artifact eval, but note that this may affect the numbers as benchmarks will be more prone to noise.
-
-- Specific choices during machine setup were made to reduce noise during benchmarks, namely disabling hyper-threading, disabling dynamic frequency scaling and pinning the CPU to a low frequency which will not introduce thermal throttling, isolating the CPUs on which we run tests using the isolcpus boot kernel parameter and running Ubuntu without a GUI and running the benchmarks on headless Firefox. Part of this setup is automated in the file ``microBenchmarkTestSetup'' in this repo. If you decide not to do this setup, this will likely result in the reported numbers being more noisy than reported.
+- Note that many of these benchmarks are run with a very large number of iterations, on a variety of different media so that we can report realistic numbers. Thus each one of these tasks below can take the better part of a day and upto a day and a half. I have indicated the expected time below. If you modify settings to reduce the number of iterations, that this may affect the numbers as benchmarks will be more prone to noise.
+- Specific choices during machine setup were made to reduce noise during benchmarks, namely disabling hyper-threading, disabling dynamic frequency scaling and pinning the CPU to a low frequency which will not introduce thermal throttling, isolating the CPUs on which we run tests using the isolcpus boot kernel parameter and running Ubuntu without a GUI and running the benchmarks on headless Firefox. Part of this setup is automated in the script "microBenchmarkTestSetup" in this repo. If you decide not to do this setup, this will likely result in the reported numbers being more noisy than reported.
 - If running on a VM, it is unlikely some of the benchmarking setup listed in the prior bullet will work particularly well. In particular, the video benchamark and measurements are quite unreliable in this setting.
 
 ### Instructions
@@ -126,7 +125,7 @@ make -C ./mozilla-release/builds run64_newpscpp
     ./newRunMicroImageTest ~/Desktop/rlbox_micro_image_logs
     ```
 
-2. We continue the microbenchmark with evaluating webpage decompression with zlib. Expected duration: 1.5 days.
+2. We continue the microbenchmark with evaluating webpage decompression with zlib. Expected duration: 0.5 days.
 
     In a separate terminal first run
 
