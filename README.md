@@ -81,20 +81,22 @@ make -C ./mozilla-release/builds run64_newpscpp
 
 ## Macro benchmarks
 
-1. We have a web crawler written as firefox extension that scrapes the Alexa top 500 websites and analyses the resources used by the webpage. This is written as a Firefox extension. Expected duration: 2 hours. To run, we will follow the steps as outlined [here](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/) reproduced below
+1. We have a web crawler written as firefox extension that scrapes the Alexa top 500 websites and analyses the resources used by the webpage and computes expected memory consumption of various sandboxing schemes. This is written as a Firefox extension. Expected duration: 2 hours. To run, we will follow the steps as outlined [here](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/) reproduced below
+    - Kill all open Firefox instances
     - Open Firefox browser (we need Firefox version > 65, so open the one that ships with the OS, not the one we built). Then type Type about:debugging in the Firefox URL bar.
     - Enter “about:debugging” in the URL bar
     - Click “This Firefox”
     - Click “Load Temporary Add-on”
     - Open file "LibrarySandboxing/web_resource_crawler/manifest.json"
-    - You will see a new icon in the toolbar. Click this.
-    - The extension will now go through the Alexa top 500, and dumps the raw logs in "LibrarySandboxing/web_resource_crawler/out.json"
-    - Then run the following commands to process the data
+    - You will see a new icon in the toolbar next to the address bar (sort of looks like a page icon) with the tooltip WebResourceCrawler. Click this.
+    - The extension will now go through the Alexa top 500 slowly (spending 10 seconds on each page to account for dynamic resource loading). Do not click on any tabs while Firefox cycles through the webpages. It dumps the raw logs in "LibrarySandboxing/web_resource_crawler/out.json"
+    - When finished it browses to a blank page. When this happens, run the following commands to process the data
 
         ```bash
-        mkdir -p "LibrarySandboxing/web_resource_crawler/data"
-        cd "LibrarySandboxing/web_resource_crawler/data"
-        ../process_logs.py
+        mkdir -p ~/Desktop/web_resource_crawler_data
+        cd ~/Desktop/web_resource_crawler_data
+        # Adjust the path as appropriate
+        LibrarySandboxing/web_resource_crawler/process_logs.py
         ```
 
     - You will see the files "crossOriginAnalysis.json" and "memory_analysis.txt" in the folder "LibrarySandboxing/web_resource_crawler/data"
