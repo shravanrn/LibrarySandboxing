@@ -17,31 +17,29 @@ This is the top level repo for the paper "Retrofitting Fine Grain Isolation in t
 
 # Software being built by this repo
 
-**Sandboxing_NaCl** - Contains the modified Native Client Runtime suitable for library sandboxing. It additionally, will automatically build the NaCl clang llvm compiler - again modified to make it suitable for Library Sandboxing as well as to add a flag that spits out relevant struct metadata
+**[rlbox_api](https://github.com/shravanrn/rlbox_api.git)** - This RLBox API which helps with safe use and migration sandboxed libraries in applications. **Note** - This is the version of the API used in the paper, and is not for production use. See [description](#description) for production ready version.
 
-**Process Sandbox** - Like above but supports sandboxing using separate processes instead of native client.
+**[Sandboxing_NaCl](https://github.com/shravanrn/Sandboxing_NaCl.git)** - Contains the modified Native Client Runtime suitable for library sandboxing. It additionally, will automatically build the NaCl clang llvm compiler - again modified to make it suitable for Library Sandboxing as well as to add a flag that spits out relevant struct metadata
 
-**libjpeg-turbo, libpng_nacl, zlib_nacl, libtheora, libvpx, libvorbis** - Library source mostly unmodified (Some minor changes for native client compatibility in some cases). Modified build files to build with the Native Client compiler.
+**[Process Sandbox](https://bitbucket.org/cdisselkoen/sandbox-benchmarking)** - Like above but supports sandboxing using separate processes instead of native client.
 
-**NASM_NaCl** - Modified version of the nasm compiler to produce nacl compliant assembly. Required to compile the SIMD portion of libjpeg and libvpx.
+**[libjpeg-turbo](https://github.com/shravanrn/libjpeg-turbo_nacltests.git), [libpng_nacl](https://github.com/shravanrn/libpng_nacl.git), [zlib_nacl](https://github.com/shravanrn/zlib_nacl.git), [libtheora](https://github.com/shravanrn/libtheora.git), [libvpx](https://github.com/shravanrn/libvpx.git), [libvorbis](https://github.com/shravanrn/libvorbis.git)** - Library source mostly unmodified (Some minor changes for native client compatibility in some cases). Modified build files to build with the Native Client compiler.
 
-**pnacl_llvm_modified pnacl_clang_modified** - Modified versions of the PNaCl Clang and LLVM toolchain to support library sandboxing. See paper for list of modifications.
+**[NASM_NaCl](https://github.com/shravanrn/NASM_NaCl.git)** - Modified version of the nasm compiler to produce nacl compliant assembly. Required to compile the SIMD portion of libjpeg and libvpx.
 
-**rlbox_api** - This RLBox API which helps with safe use and migration sandboxed libraries in applications.
+**[pnacl_llvm_modified](https://github.com/shravanrn/nacl-llvm.git), [pnacl_clang_modified](https://github.com/shravanrn/nacl-clang.git)** - Modified versions of the PNaCl Clang and LLVM toolchain to support library sandboxing. See paper for list of modifications.
 
-**mozilla_firefox_stock** - Stock Firefox with some minor modifications to permit easy benchmarking.
+**[mozilla-release](https://github.com/shravanrn/mozilla_firefox_nacl.git), [mozilla_firefox_stock](https://github.com/shravanrn/mozilla_firefox_nacl/tree/vanilla)** - Modified and stock versions of firefox 57 to use either the NaCl Sandbox or the Process Sandbox. Note stock version has some minor modifications so we can perform our benchmarking.
 
-**mozilla-release** - Modified version of firefox to use either the NaCl Sandbox or the Process Sandbox
+**[node.bcrypt.js](https://github.com/PLSysSec/node.bcrypt.js.git)** - Sandboxed use of bcrypt library in node module that provides crypto primitves.
 
-**node.bcrypt.js** - Sandboxed use of bcrypt library in node module that provides crypto primitves.
+**[mod_markdown](https://github.com/PLSysSec/mod_markdown.git), [libmarkdown](https://github.com/PLSysSec/libmarkdown.git)** - Sandboxed use of libmarkdown in the apache module "mod_markdown" for rendering markdown files as html.
 
-**libmarkdown mod_markdown** - Sanboxed use of libmarkdown in the apache module for rendering markdown files as html.
+**[web_resource_crawler](https://github.com/shravanrn/web_resource_crawler.git)** - A firefox extension (needs Firefox 65+) that crawls the Alexa top 500, and collects information about the resources used on the web page.
 
-**web_resource_crawler** - A firefox extension (needs Firefox 65+) that crawls the Alexa top 500, and collects information about the resources used on the web page.
+**[rlbox-st-test](https://github.com/PLSysSec/rlbox-st-test.git)** - A webserver that is used to host image files for the sandboxing scaling test, and the webpage compression test in Firefox.
 
-**rlbox-st-test** - A webserver that is used to host image files for the sandboxing scaling test, and the webpage compression test in Firefox.
-
-Some other repos are pulled in to assist with building or benchmarking namely "depot_tools" and "gyp" for building and "cgmemtime" for benchmarking.
+Some other repos are pulled in to assist with building or benchmarking namely "depot_tools" and "gyp" for building and a slightly modified [cgmemtime](https://github.com/shravanrn/cgmemtime.git) for benchmarking.
 
 # Build Instructions
 
