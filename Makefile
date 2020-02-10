@@ -176,6 +176,7 @@ build: install_deps pull
 	$(MAKE) -C node.bcrypt.js build
 	$(MAKE) -C libmarkdown all
 	$(MAKE) -C mod_markdown
+	@echo "Library Sandboxing build successful!!!"
 
 clean:
 	-$(MAKE) -C cgmemtime clean
