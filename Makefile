@@ -109,10 +109,10 @@ pnacl_clang_modified:
 get_source: $(DIRS)
 
 bootstrap_check:
-	if [ ! -e "$(CURR_DIR)/bootstrap" ]; then \
-		@echo "Before building, run the following commands" ; \
-		@echo "make bootstrap" ; \
-		@echo "source ~/.profile" ; \
+	@if [ ! -e "$(CURR_DIR)/bootstrap" ]; then \
+		echo "Before building, run the following commands" ; \
+		echo "make bootstrap" ; \
+		echo "source ~/.profile" ; \
 		exit 1; \
 	fi
 
