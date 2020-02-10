@@ -43,68 +43,68 @@ gyp :
 	git clone https://chromium.googlesource.com/external/gyp.git $@
 
 Sandboxing_NaCl :
-	git clone git@github.com:shravanrn/Sandboxing_NaCl.git $@
+	git clone https://github.com/shravanrn/Sandboxing_NaCl.git $@
 
 libjpeg-turbo :
-	git clone git@github.com:shravanrn/libjpeg-turbo_nacltests.git $@
+	git clone https://github.com/shravanrn/libjpeg-turbo_nacltests.git $@
 	cd libjpeg-turbo && git checkout 1.4.x
 
 libpng_nacl:
-	git clone git@github.com:shravanrn/libpng_nacl.git $@
+	git clone https://github.com/shravanrn/libpng_nacl.git $@
 	cd $@ && git checkout 1.6.31
 
 zlib_nacl:
-	git clone git@github.com:shravanrn/zlib_nacl.git $@
+	git clone https://github.com/shravanrn/zlib_nacl.git $@
 
 libtheora:
-	git clone git@github.com:shravanrn/libtheora.git $@
+	git clone https://github.com/shravanrn/libtheora.git $@
 
 libvpx:
-	git clone git@github.com:shravanrn/libvpx.git $@
+	git clone https://github.com/shravanrn/libvpx.git $@
 	cd $@ && git checkout ff_custom
 
 libvorbis:
-	git clone git@github.com:shravanrn/libvorbis.git $@
+	git clone https://github.com/shravanrn/libvorbis.git $@
 
 NASM_NaCl :
-	git clone git@github.com:shravanrn/NASM_NaCl.git $@
+	git clone https://github.com/shravanrn/NASM_NaCl.git $@
 
 mozilla-release :
-	git clone git@github.com:shravanrn/mozilla_firefox_nacl.git $@
+	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
 
 mozilla_firefox_stock:
-	git clone git@github.com:shravanrn/mozilla_firefox_nacl.git $@
+	git clone https://github.com/shravanrn/mozilla_firefox_nacl.git $@
 	cd $@ && git checkout vanilla
 
 ProcessSandbox :
 	git clone https://bitbucket.org/cdisselkoen/sandbox-benchmarking $@
 
 rlbox-st-test:
-	git clone git@github.com:PLSysSec/rlbox-st-test.git
+	git clone https://github.com/PLSysSec/rlbox-st-test.git
 
 rlbox_api:
-	git clone git@github.com:shravanrn/rlbox_api.git
+	git clone https://github.com/shravanrn/rlbox_api.git
 
 web_resource_crawler:
-	git clone git@github.com:shravanrn/web_resource_crawler.git
+	git clone https://github.com/shravanrn/web_resource_crawler.git
 
 node.bcrypt.js:
-	git clone git@github.com:PLSysSec/node.bcrypt.js.git
+	git clone https://github.com/PLSysSec/node.bcrypt.js.git
 
 libmarkdown:
-	git clone git@github.com:PLSysSec/libmarkdown.git
+	git clone https://github.com/PLSysSec/libmarkdown.git
 
 mod_markdown:
-	git clone git@github.com:PLSysSec/mod_markdown.git
+	git clone https://github.com/PLSysSec/mod_markdown.git
 
 cgmemtime:
-	git clone git@github.com:shravanrn/cgmemtime.git
+	git clone https://github.com/shravanrn/cgmemtime.git
 
 pnacl_llvm_modified:
-	git clone git@github.com:shravanrn/nacl-llvm.git $@
+	git clone https://github.com/shravanrn/nacl-llvm.git $@
 
 pnacl_clang_modified:
-	git clone git@github.com:shravanrn/nacl-clang.git $@
+	git clone https://github.com/shravanrn/nacl-clang.git $@
 
 get_source: $(DIRS)
 
