@@ -106,17 +106,13 @@ pnacl_llvm_modified:
 pnacl_clang_modified:
 	git clone https://github.com/shravanrn/nacl-clang.git $@
 
-get_source: $(DIRS)
-
-bootstrap_check:
+install_deps: $(DIRS)
 	@if [ ! -e "$(CURR_DIR)/bootstrap" ]; then \
 		echo "Before building, run the following commands" ; \
 		echo "make bootstrap" ; \
 		echo "source ~/.profile" ; \
 		exit 1; \
 	fi
-
-install_deps: bootstrap_check get_source
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
 	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
@@ -141,7 +137,7 @@ install_deps: bootstrap_check get_source
 	cd libmarkdown && ./configure.sh --shared
 	touch ./install_deps
 
-pull: get_source
+pull: $(DIRS)
 	git pull
 	cd cgmemtime && git pull
 	cd pnacl_llvm_modified && git pull
