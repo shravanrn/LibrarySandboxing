@@ -130,6 +130,8 @@ install_deps: bootstrap_check get_source
 	$(MAKE) -C mozilla-release/builds initbootstrap
 	# skip rebootstrapping for firefox stock
 	touch mozilla_firefox_stock/builds/initbootstrap
+	# firefox removes the following packages, reinstall them
+	sudo apt -y install libssl1.0-dev node-gyp nodejs-dev npm
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
 	# setup manifest for local component to extension
