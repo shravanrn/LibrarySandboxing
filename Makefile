@@ -124,17 +124,16 @@ install_deps: bootstrap_check get_source
 	fi
 	# Install gyp
 	cd gyp && sudo python setup.py install
+	# setup local server dependencies for compression and scaling tests
+	cd rlbox-st-test && npm install
 	# bootstrap firefox
 	$(MAKE) -C mozilla-release/builds initbootstrap
 	# skip rebootstrapping for firefox stock
 	touch mozilla_firefox_stock/builds/initbootstrap
 	# setup apache to use our eventually built mod_markdown
 	sudo $(MAKE) -C mod_markdown install
-	-sudo apache2ctl stop
 	# setup manifest for local component to extension
 	./web_resource_crawler/install.py
-	# setup local server dependencies for compression and scaling tests
-	cd rlbox-st-test && npm install
 	touch ./install_deps
 
 pull: get_source
