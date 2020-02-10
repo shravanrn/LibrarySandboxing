@@ -136,6 +136,9 @@ install_deps: bootstrap_check get_source
 	sudo $(MAKE) -C mod_markdown install
 	# setup manifest for local component to extension
 	./web_resource_crawler/install.py
+	# Configure repos for first use
+	cd NASM_NaCl && ./configure
+	cd libmarkdown && ./configure.sh --shared
 	touch ./install_deps
 
 pull: get_source
