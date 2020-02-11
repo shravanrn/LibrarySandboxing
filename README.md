@@ -108,7 +108,7 @@ make -C ./mozilla-release/builds run64_newpscpp
 
     You will see the results in page_latency_metrics.txt, page_memory_overhead_metrics.txt in the folder ~/Desktop/rlbox_macro_logs
 
-    **Note** - Firefox's test harness is primarily meant for local tests and isn't really setup to make network calls prior to our modifications of the harness. Our modified test harness is sometimes a little flaky, if the test harness gets stuck, and does not continue to iterate the tests, just re-run the test.
+    **Note** - Firefox's test harness is primarily meant for local tests and isn't really setup to make network calls prior to our modifications of the harness. Our modified test harness sometimes freezes during page load; if this happens, let the test script continue, it automatically restarts as needed in this situation.
 
 ## Micro benchmarks
 
