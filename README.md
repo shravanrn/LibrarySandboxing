@@ -52,12 +52,20 @@ Some other repos are pulled in to assist with building or benchmarking namely "d
 To build the repo, run
 
 ```bash
+# Need make to run the scripts
+sudo apt-get install make
 # This installs required packages on the system.
 # Only need to run once per system.
 make bootstrap
 # load the changes
 source ~/.profile
 # Download all sub-repos and build the world
+make
+```
+
+For incremental builds after the first one, you can just use
+
+```bash
 make
 ```
 
