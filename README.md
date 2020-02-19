@@ -215,7 +215,7 @@ make -C ./mozilla-release/builds run64_newpscpp
 1. If you see the error "Could not create new sub-cgroup /sys/fs/cgroup/memory/cgmemtime/2179: No such file or directory", run the following
 
     ```bash
-    cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775
+    cd ./cgmemtime && sudo ./cgmemtime --setup -g $(id -gn) --perm 775
     ```
 
 2. If you see the error "taskset: failed to set pid 2231's affinity: Invalid argument", you are running on a machine with less than 4 cores. A limitation of the code here is that we assume a minimum of 4 cores. If you are in a VM, assign more cores.

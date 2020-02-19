@@ -116,7 +116,7 @@ install_deps: $(DIRS)
 	# build cgmemtime to setup the permissions group
 	$(MAKE) -C cgmemtime
 	if  [ ! -e "/sys/fs/cgroup/memory/cgmemtime" ]; then \
-		cd ./cgmemtime && sudo ./cgmemtime --setup -g $(USER) --perm 775; \
+		cd ./cgmemtime && sudo ./cgmemtime --setup -g $(id -gn) --perm 775; \
 	fi
 	# Install gyp
 	cd gyp && sudo python setup.py install
