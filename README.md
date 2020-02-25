@@ -11,7 +11,7 @@
 
 # Description
 
-This is the top level repo for the paper "Retrofitting Fine Grain Isolation in the Firefox Renderer" submitted to USENIX 2020 in which we introduce the RLBox sandboxing framework. This repo will download and build all tools used in the paper, such as the multiple builds of firefox with sandboxed libraries, modified compilers, and the RLBox API.
+This is the top level repo for the paper [Retrofitting Fine Grain Isolation in the Firefox Renderer](https://usenix2020.rlbox.dev/) submitted to USENIX 2020 in which we introduce the RLBox sandboxing framework. This repo will download and build all tools used in the paper, such as the multiple builds of firefox with sandboxed libraries, modified compilers, and the RLBox API.
 
 **Note** - this repo contains code used in our research prototypes. This is **not production ready**. A production ready version of RLBox is available [here](https://github.com/PLSysSec/rlbox_sandboxing_api) with accompanying documentation [here](https://docs.rlbox.dev/). The production ready version is being used by the Firefox browser.
 
